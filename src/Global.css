@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai&family=Mitr:wght@200;300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme{
+  --font-mitr: Mitr, "sans serif"
+}
+
+@keyframes underlineMove {
+      0% { transform: translateX(-100%); opacity: 0.6; }
+      50% { transform: translateX(0); opacity: 1; }
+      100% { transform: translateX(100%); opacity: 0.6; }
+    }

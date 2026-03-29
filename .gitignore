@@ -1,0 +1,73 @@
+# =========================
+# Node / Build outputs
+# =========================
+node_modules
+dist
+dist-ssr
+*.local
+
+# =========================
+# Logs
+# =========================
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# =========================
+# Editor & OS Files
+# =========================
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.iml
+.history/
+*.bak
+*.tmp
+
+# =========================
+# Tailwind / CSS Cache
+# =========================
+.tailwind*
+
+# =========================
+# Environment Variables
+# =========================
+.env
+.env.* 
+
+# =========================
+# Firebase
+# =========================
+.firebase
+firebase-debug.log
+.firebase/hosting.*
+.firebaserc.bak
+# Keep this file! It maps the Firebase project.
+# .firebaserc
+
+# =========================
+# Build Tools Cache
+# =========================
+.cache/
+vite.config.ts.timestamp*
+vite.config.js.timestamp*
+vite.config.mjs.timestamp*
+
+# =========================
+# Optional Tooling
+# =========================
+out/
+coverage/
+temp/
+.tmp/
