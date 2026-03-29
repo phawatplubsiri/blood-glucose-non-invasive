@@ -1,30 +1,41 @@
-# Blood Glucose Final Project 💉📊
+Non-invasive Blood Glucose Monitoring System
 
-ระบบแดชบอร์ดสำหรับแสดงผลข้อมูลระดับน้ำตาลในเลือด พัฒนาโดยใช้ React และ Vite พร้อมการเชื่อมต่อกับ Firebase เหมาะสำหรับการเรียนรู้การพัฒนาเว็บแอปพลิเคชันที่มีการแสดงผลข้อมูลแบบเรียลไทม์
+โปรเจกต์นี้เป็นระบบตรวจสอบและวิเคราะห์ระดับน้ำตาลในเลือดแบบไม่เจาะจง (Non-invasive) พัฒนาขึ้นเพื่อเป็นแพลตฟอร์มในการรวบรวมข้อมูลจากเซ็นเซอร์และแสดงผลการวิเคราะห์ผ่านโมเดลการเรียนรู้ของเครื่อง (Machine Learning) เพื่อใช้ในการศึกษาและวิจัยด้านสุขภาพ
 
-## 🔧 เทคโนโลยีที่ใช้
+จุดประสงค์ของโปรเจกต์
+- เพื่อใช้เป็นระบบบันทึกและจัดการข้อมูลระดับน้ำตาลในเลือดจากเซ็นเซอร์ ESP แบบเรียลไทม์
+- เพื่อแสดงผลการวิเคราะห์และเปรียบเทียบประสิทธิภาพของโมเดล Machine Learning หลากหลายรูปแบบ
+- เพื่อเป็นเครื่องมือในการจัดการฐานข้อมูลสุขภาพสำหรับการพัฒนาโมเดลพยากรณ์ในอนาคต
 
-- **Frontend**: React (Javascript) + Vite
-- **Charting**: Chart.js (ผ่าน React wrapper)
-- **Backend**: Firebase SDK (สำหรับ Hosting และการตั้งค่า)
-- **เครื่องมือเสริม**: ESLint, Vite config, Tailwindcss
+เทคโนโลยีที่ใช้
+- ส่วนติดต่อผู้ใช้: React 19 ร่วมกับ Vite 6
+- การจัดการสไตล์: Tailwind CSS 4
+- ฐานข้อมูลและการโฮสต์: Firebase (Firestore, Authentication และ Hosting)
+- การแสดงผลกราฟ: Chart.js และ React-chartjs-2
+- การจัดการเส้นทาง: React Router 7
+- ส่วนประกอบ UI: Lucide React และ SweetAlert2
 
-## 📁 โครงสร้างโปรเจกต์
+ฟีเจอร์การทำงาน
+- ระบบรักษาความปลอดภัย: มีหน้า Login และระบบ Protected Route เพื่อจำกัดการเข้าถึงข้อมูล
+- แดชบอร์ดแสดงผลข้อมูล: รองรับการรับค่าจากเซ็นเซอร์ ESP และแสดงผลแบบเรียลไทม์
+- การวิเคราะห์ด้วยโมเดล: แสดงผลการทำงานของโมเดล CNN, DNN, Random Forest, Decision Tree และ Multiple Linear Regression (MLR)
+- การแสดงผลทางสถิติ: กราฟเส้น (Line Chart), กราฟการกระจาย (Scatter Chart), กราฟค่าคงเหลือ (Residual Chart) และกราฟการเรียนรู้ (Learning Curve)
+- การจัดการข้อมูล: ระบบเพิ่ม แก้ไข ลบข้อมูล และสามารถส่งออกข้อมูลเป็นไฟล์ CSV ได้
+- การเชื่อมต่อภายนอก: มีลิงก์เชื่อมต่อไปยัง Google Colab และ Google Drive สำหรับการฝึกฝนโมเดล
 
-bg_final_project/ 
-- src/ # React components และ assets 
-- index.html # จุดเริ่มต้นของแอป 
-- package.json # รายการ dependencies และ scripts 
-- firebase.json # การตั้งค่า Firebase Hosting 
-- .firebaserc # Firebase project alias 
-- vite.config.js # การตั้งค่า Vite
-- eslint.config.js # กฎการตรวจสอบโค้ด 
-- README.md # เอกสารประกอบโปรเจกต์
+ขั้นตอนการนำไปใช้งาน
+1. ดาวน์โหลดโปรเจกต์และติดตั้ง Library ที่จำเป็น
+   npm install
 
-## 🚀 วิธีเริ่มต้นใช้งาน
+2. เริ่มต้นรันโปรเจกต์ในโหมดพัฒนา (Development Mode)
+   npm run dev
 
-1. **ติดตั้ง dependencies**  ->  npm install
-2. **รันเซิร์ฟเวอร์สำหรับพัฒนา**  ->  npm run dev
-3. **Deploy ขึ้น Firebase หากต้องการ**  ->  firebase deploy
+3. การตรวจสอบความถูกต้องของโค้ด
+   npm run lint
 
+4. การสร้างไฟล์สำหรับการใช้งานจริง (Production Build)
+   npm run build
 
+5. การเตรียมการด้าน Firebase
+   - ตรวจสอบการตั้งค่าในไฟล์ src/configs/firebaseConfigs.js ให้ตรงกับโปรเจกต์ Firebase ของคุณ
+   - หากต้องการ Deploy ให้ใช้คำสั่ง firebase deploy
