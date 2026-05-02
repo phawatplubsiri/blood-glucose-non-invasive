@@ -7,6 +7,8 @@ import RunSelector from "../components/RunSelector";
 import ColabDriveLinks from "../components/ColabDriveLink";
 import ChartSelector from "../components/ChartSelector";
 import FeatureImportance from "../components/FeatureImportanceChart";
+import ControlPanel from "../components/ControlPanel";
+import { Settings } from "lucide-react";
 
 // Page component: หน้าหลักสำหรับแสดงผลลัพธ์ของโมเดล Decision Tree
 export default function DecisionPage() {
@@ -17,21 +19,23 @@ export default function DecisionPage() {
   const [selectedRun, setSelectedRun] = useState("run001");
   // state สำหรับเก็บ 'chart' ที่ผู้ใช้เลือก เพื่อกรองการแสดงผล
   const [selectedChart, setSelectedChart] = useState("all");
+  // state สำหรับเปิด/ปิดแผงควบคุม
+  const [isControlOpen, setIsControlOpen] = useState(true);
 
   return (
-    <div className="flex flex-col px-2 md:px-8 font-mitr">
+    <div className="flex flex-col px-2 md:px-8 font-mitr w-full max-w-full overflow-x-hidden">
       <div className="flex justify-center">
-        <p className="mt-6 md:mt-12 mb-4 p-3 md:p-4 text-center text-xl md:text-2xl bg-[#f3d7d7] rounded-2xl">
+        <p className="mt-4 md:mt-6 mb-2 p-2 md:p-3 text-center text-lg md:text-xl bg-[#f3d7d7] rounded-2xl border border-pink-200 shadow-sm">
           Decision Tree
         </p>
       </div>
 
       {/* Layout หลักของหน้า: แบ่งเป็นส่วนแสดงกราฟ และส่วนควบคุม */}
-      <div className="my-3 flex flex-col items-center gap-6 lg:flex-row lg:gap-10 lg:justify-center">
+      <div className="my-1 flex flex-col items-center gap-4 lg:flex-row lg:items-start lg:justify-center">
         {/* === ส่วนแสดงกราฟ (ฝั่งซ้าย) === */}
-        <div className={`w-full max-w-[900px] bg-white p-4 shadow-sm border rounded-xl space-y-6 ${
-          selectedChart === "all" ? "h-auto lg:h-[700px] overflow-y-auto" : "h-auto"
-        }`}>
+        <div className={`transition-all duration-300 bg-white p-3 shadow-md border rounded-xl space-y-4 ${
+          selectedChart === "all" ? "h-auto lg:h-[750px] overflow-y-auto" : "h-auto"
+        } ${isControlOpen ? "w-full lg:max-w-[850px]" : "w-full lg:max-w-[1100px]"}`}>
           {/* Conditional Rendering: 
             ใช้ค่าจาก state `selectedChart` เพื่อเลือกว่าจะแสดงกราฟตัวไหน
         */}
@@ -79,28 +83,24 @@ export default function DecisionPage() {
           )}
         </div>
 
-        {/* === ส่วนควบคุมและแสดงข้อมูล (ฝั่งขวา) === */}
-        <div className="flex flex-col items-center justify-center gap-5 w-full lg:w-auto">
-          <div className="gap-3">
-            {/* Component สำหรับเลือก Run ID */}
+        {/* ส่วนควบคุมและแสดงข้อมูล (ลิ้นชักฝั่งขวา) */}
+        <ControlPanel isOpen={isControlOpen} setIsOpen={setIsControlOpen}>
+          {/* กลุ่มที่ 1: การเลือกข้อมูลและกราฟ */}
+          <div className="space-y-4">
             <RunSelector
               selectedModel={selectedModel}
               selectedRun={selectedRun}
               setSelectedRun={setSelectedRun}
             />
-
-            {/* Component สำหรับเลือกประเภทกราฟ */}
-            <div className="mb-4 text-center ">
-              <ChartSelector
-                selectedChart={selectedChart}
-                onChange={(chart) => setSelectedChart(chart)}
-                modelType="DT"
-              />
-            </div>
+            <ChartSelector
+              selectedChart={selectedChart}
+              onChange={(chart) => setSelectedChart(chart)}
+              modelType="DT"
+            />
           </div>
 
-          {/* Component สำหรับแสดงค่า Metrics ของโมเดล */}
-          <div className="h-full w-full max-w-[200px] bg-white p-4">
+          {/* กลุ่มที่ 2: สถานะโมเดล */}
+          <div className="bg-gray-50/50 rounded-xl p-1 border border-gray-100">
             <ModelEvalutionMetric
               collectionName={selectedModel}
               runId={selectedRun}
@@ -108,12 +108,14 @@ export default function DecisionPage() {
             />
           </div>
 
-          {/* Component สำหรับแสดงลิงก์ Colab และ Drive */}
-          <ColabDriveLinks
-            colabLink = {import.meta.env.VITE_COLAB_DT}
-            driveLink = {import.meta.env.VITE_DRIVE_DT}
-          />
-        </div>
+          {/* กลุ่มที่ 3: ลิงก์เชื่อมโยง */}
+          <div className="pt-2">
+            <ColabDriveLinks
+              colabLink = {import.meta.env.VITE_COLAB_DT}
+              driveLink = {import.meta.env.VITE_DRIVE_DT}
+            />
+          </div>
+        </ControlPanel>
       </div>
     </div>
   );

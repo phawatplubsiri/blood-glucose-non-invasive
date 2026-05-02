@@ -3,6 +3,8 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../configs/firebaseConfigs";
 import { Info } from "lucide-react";
 
+import { LoadingState, NotFoundState } from "./StatusMessage";
+
 // 🔹 Tooltip ใช้แสดงคำอธิบายเมื่อเอาเมาส์ชี้
 function Tooltip({ content }) {
   return (
@@ -37,13 +39,13 @@ export default function ModelEvalutionMetric({ collectionName, runId, modelType 
   // ถ้าไม่เจอ document
   if (notFound)
     return (
-      <div className="text-center text-red-500 mt-4">
-        ไม่พบ Document ใน Firestore
-      </div>
+      <NotFoundState 
+        message="ไม่พบข้อมูลโมเดล" 
+      />
     );
 
   // ถ้ายังโหลดไม่เสร็จ
-  if (!metrics) return <div>Loading metrics...</div>;
+  if (!metrics) return <LoadingState message="กำลังโหลดค่าสถานะโมเดล..." />;
 
   // ข้อความอธิบายไว้ใน tooltip
   const infoContent = (
@@ -68,18 +70,36 @@ export default function ModelEvalutionMetric({ collectionName, runId, modelType 
         <Tooltip content={infoContent} />
       </h2>
 
-      {/* แสดงค่าตัวชี้วัดของโมเดล */}
-      <ul className="space-y-1">
-        <li>Raw Data: {metrics.raw_data.toFixed(0)}</li>
-        <li>Train Data: {metrics.data_train.toFixed(0)}</li>
-        <li>MAE: {metrics.MAE.toFixed(4)}</li>
-        <li>MSE: {metrics.MSE.toFixed(4)}</li>
-        <li>R²: {metrics.R2.toFixed(4)}</li>
+      {/* แสดงค่าตัวชี้วัดของโมเดล - ปรับเป็น Grid 2 คอลัมน์เพื่อให้กระชับ */}
+      <div className="grid grid-cols-2 gap-2 text-sm">
+        <div className="bg-gray-50 p-2 rounded-lg border border-gray-100">
+          <p className="text-gray-500 text-xs">Raw Data</p>
+          <p className="font-semibold">{metrics.raw_data.toFixed(0)}</p>
+        </div>
+        <div className="bg-gray-50 p-2 rounded-lg border border-gray-100">
+          <p className="text-gray-500 text-xs">Train Data</p>
+          <p className="font-semibold">{metrics.data_train.toFixed(0)}</p>
+        </div>
+        <div className="bg-gray-50 p-2 rounded-lg border border-gray-100">
+          <p className="text-gray-500 text-xs">MAE</p>
+          <p className="font-semibold text-blue-600">{metrics.MAE.toFixed(4)}</p>
+        </div>
+        <div className="bg-gray-50 p-2 rounded-lg border border-gray-100">
+          <p className="text-gray-500 text-xs">MSE</p>
+          <p className="font-semibold text-red-600">{metrics.MSE.toFixed(4)}</p>
+        </div>
+        <div className="bg-gray-50 p-2 rounded-lg border border-gray-100 col-span-2">
+          <p className="text-gray-500 text-xs">R² Score</p>
+          <p className="font-semibold text-green-600 text-base">{metrics.R2.toFixed(4)}</p>
+        </div>
         {/* โชว์ Epochs เฉพาะโมเดลที่เป็น neural network */}
         {(modelType !== "DT" && modelType !== "RF") && (
-          <li>Epochs: {metrics.epochs.length.toFixed(0)}</li>
+          <div className="bg-gray-50 p-2 rounded-lg border border-gray-100 col-span-2">
+            <p className="text-gray-500 text-xs">Total Epochs</p>
+            <p className="font-semibold">{metrics.epochs?.length || 0}</p>
+          </div>
         )}
-      </ul>
+      </div>
     </div>
   );
 }
