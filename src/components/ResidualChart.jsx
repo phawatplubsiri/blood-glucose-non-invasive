@@ -13,6 +13,8 @@ import {
   Legend,
 } from "chart.js";
 
+import { LoadingState, NotFoundState } from "./StatusMessage";
+
 ChartJS.register(
   PointElement, LineElement, CategoryScale, LinearScale, Title, Tooltip, Legend
 );
@@ -37,8 +39,12 @@ const ResidualChart = ({ collectionName, runId }) => {
   }, [collectionName, runId]);
 
   // แสดงผลตามเงื่อนไข: loading หรือ not found
-  if (notFound) return <div className="text-red-500">ไม่พบข้อมูล</div>;
-  if (!chartData) return <div>Loading...</div>;
+  if (notFound) return (
+    <NotFoundState 
+      message="ไม่พบข้อมูลกราฟ Residual" 
+    />
+  );
+  if (!chartData) return <LoadingState message="กำลังโหลดข้อมูลกราฟ..." />;
 
   // --- ส่วนของการเตรียมข้อมูลสำหรับกราฟ ---
 

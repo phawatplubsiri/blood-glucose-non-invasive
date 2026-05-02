@@ -13,6 +13,8 @@ import {
   Legend,
 } from "chart.js";
 
+import { LoadingState, NotFoundState } from "./StatusMessage";
+
 // ลงทะเบียน components ที่จำเป็นสำหรับ Chart.js
 ChartJS.register(
   LineElement,
@@ -50,11 +52,11 @@ const LearningCurveR2 = ({ collectionName, runId }) => {
   // แสดงผลตามเงื่อนไข: loading หรือ not found
   if (notFound)
     return (
-      <div className="text-center text-red-500 mt-4">
-        ไม่พบ Document ใน Firestore
-      </div>
+      <NotFoundState 
+        message="ไม่พบข้อมูล Learning Curve R2" 
+      />
     );
-  if (!curveData) return <div>Loading Graph...</div>;
+  if (!curveData) return <LoadingState message="กำลังโหลดข้อมูล Learning Curve R2..." />;
 
   // เตรียมข้อมูล (labels, datasets) สำหรับนำไปสร้างกราฟ
   const labels = curveData.train_loss_list.map((_, i) => i + 1);

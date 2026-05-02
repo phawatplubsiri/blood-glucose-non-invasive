@@ -13,6 +13,8 @@ import {
   Legend,
 } from "chart.js";
 
+import { LoadingState, NotFoundState } from "./StatusMessage";
+
 // ลงทะเบียน components ที่จำเป็นสำหรับ Chart.js
 ChartJS.register(
   LineElement,
@@ -54,11 +56,11 @@ const LearningCurve = ({ collectionName, runId }) => {
   // --- ส่วนของการแสดงผลตามเงื่อนไข (Conditional Rendering) ---
   if (notFound)
     return (
-      <div className="text-center text-red-500 mt-4">
-        ไม่พบ Document ใน Firestore
-      </div>
+      <NotFoundState 
+        message="ไม่พบข้อมูล Learning Curve" 
+      />
     );
-  if (!curveData) return <div>Loading...</div>; // แสดง "Loading" ขณะรอข้อมูล
+  if (!curveData) return <LoadingState message="กำลังโหลดข้อมูล Learning Curve..." />;
 
   // --- ส่วนของการเตรียมข้อมูลสำหรับ Chart.js ---
   // สร้าง Label แกน X (Epochs) จากความยาวของ array ข้อมูล

@@ -12,6 +12,8 @@ import {
   Legend,
 } from "chart.js";
 
+import { LoadingState, NotFoundState } from "./StatusMessage";
+
 // ลงทะเบียน component ที่ chart.js ต้องใช้
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -71,13 +73,13 @@ const FeatureImportanceChart = ({ collectionName, runId }) => {
   // ถ้าไม่เจอ document
   if (notFound)
     return (
-      <div className="text-center text-red-500 mt-4">
-        ไม่พบ Document ใน Firestore
-      </div>
+      <NotFoundState 
+        message="ไม่พบข้อมูล Feature Importance" 
+      />
     );
 
   // ยังโหลดข้อมูลไม่เสร็จ
-  if (!chartData) return <div>Loading Graph...</div>;
+  if (!chartData) return <LoadingState message="กำลังโหลดข้อมูลความสำคัญของฟีเจอร์..." />;
 
   // ตั้งค่าการแสดงผลของกราฟ
   const options = {

@@ -7,8 +7,11 @@ import { fields, editableFields } from "../constants/fields";
 import EditTableRow from "../components/EditTableRow";
 import ExportCSVButton from "../components/ExportCSVButton";
 
+import { LoadingState, NotFoundState } from "../components/StatusMessage";
+
 function EditDataPage() {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,8 +24,15 @@ function EditDataPage() {
   }, []);
 
   const fetchData = async () => {
-    const snapshot = await getDocs(collection(db, "BloodRecords"));
-    setData(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    setLoading(true);
+    try {
+      const snapshot = await getDocs(collection(db, "BloodRecords"));
+      setData(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleEditClick = (item) => {
@@ -145,20 +155,34 @@ function EditDataPage() {
             </tr>
           </thead>
           <tbody>
-            {currentData.map((item, index) => (
-              <EditTableRow
-                key={item.id}
-                item={item}
-                index={startIndex + index + 1}
-                editingId={editingId}
-                formData={formData}
-                fields={fields}
-                onEditClick={handleEditClick}
-                onCancel={() => setEditingId(null)}
-                onChange={handleChange}
-                onUpdate={handleUpdate}
-              />
-            ))}
+            {loading ? (
+              <tr>
+                <td colSpan={fields.length + 2} className="p-10">
+                  <LoadingState message="กำลังดึงข้อมูลรายการ..." />
+                </td>
+              </tr>
+            ) : currentData.length > 0 ? (
+              currentData.map((item, index) => (
+                <EditTableRow
+                  key={item.id}
+                  item={item}
+                  index={startIndex + index + 1}
+                  editingId={editingId}
+                  formData={formData}
+                  fields={fields}
+                  onEditClick={handleEditClick}
+                  onCancel={() => setEditingId(null)}
+                  onChange={handleChange}
+                  onUpdate={handleUpdate}
+                />
+              ))
+            ) : (
+              <tr>
+                <td colSpan={fields.length + 2} className="p-10">
+                  <NotFoundState message="ไม่พบข้อมูลรายการ" />
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

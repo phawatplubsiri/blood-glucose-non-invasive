@@ -13,6 +13,8 @@ import {
   Legend,
 } from "chart.js";
 
+import { LoadingState, NotFoundState } from "./StatusMessage";
+
 // ลงทะเบียน components ที่จำเป็นสำหรับ Chart.js
 ChartJS.register(
   LineElement,
@@ -44,8 +46,12 @@ const LineChart = ({ collectionName, runId }) => {
   }, [collectionName, runId]);
 
   // แสดงผลตามเงื่อนไข: loading หรือ not found
-  if (notFound) return <div className="text-red-500">ไม่พบข้อมูล</div>;
-  if (!chartData) return <div>Loading...</div>;
+  if (notFound) return (
+    <NotFoundState 
+      message="ไม่พบข้อมูลกราฟเส้น" 
+    />
+  );
+  if (!chartData) return <LoadingState message="กำลังโหลดข้อมูลกราฟ..." />;
 
   // เตรียมข้อมูล (labels, datasets) สำหรับนำไปสร้างกราฟ
   const labels = chartData.y_true.map((_, i) => i + 1);
