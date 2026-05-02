@@ -18,7 +18,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="min-h-screen flex items-center justify-center">
         <p className="text-xl font-semibold">กำลังตรวจสอบสิทธิ์...</p>
       </div>
     );

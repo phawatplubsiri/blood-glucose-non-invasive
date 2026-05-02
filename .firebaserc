@@ -1,7 +1,6 @@
 {
   "projects": {
-    "default": "nextapp-1bd0d",
-    "blood-glucose-2": "blood-glucose2"
+    "default": "bg-non-invasive"
   },
   "targets": {},
   "etags": {}
