@@ -52,10 +52,6 @@
 
 ## ฟีเจอร์หลัก
 
-### ระบบรักษาความปลอดภัย
-- หน้า Login และการยืนยันตัวตน
-- Protected Route สำหรับจำกัดการเข้าถึงข้อมูล
-
 ### แดชบอร์ดและการแสดงผล
 - รับค่าจากเซ็นเซอร์ ESP แบบเรียลไทม์
 - แสดงข้อมูลบนแดชบอร์ดโปรแกรม
@@ -100,17 +96,7 @@ npm run dev
 ```
 แอปพลิเคชันจะเปิดที่ `http://localhost:5173`
 
-### 3. ตรวจสอบคุณภาพโค้ด (Linting)
-```bash
-npm run lint
-```
-
-### 4. สร้าง Production Build
-```bash
-npm run build
-```
-
-### 5. ตั้งค่า Firebase
+### 3. ตั้งค่า Firebase
 
 #### ขั้นตอน:
 1. ตรวจสอบการตั้งค่า Firebase Configuration
@@ -120,31 +106,3 @@ npm run build
 
 2. ตรวจสอบให้แน่ใจว่า Configuration ตรงกับโปรเจกต์ Firebase ของคุณ
 
-3. Deploy ไปยัง Firebase Hosting
-   ```bash
-   firebase deploy
-   ```
-
----
-
-## โครงสร้างโปรเจกต์
-
-```
-src/
-├── components/        → คอมโพเนนต์ UI
-├── pages/             → หน้าต่างๆ ของแอป
-├── hooks/             → Custom hooks
-├── configs/           → ไฟล์การตั้งค่า
-├── utils/             → ฟังก์ชันช่วยเหลือ
-└── constants/         → ค่าคงที่
-```
-
----
-
-## ติดต่อและสนับสนุน
-
-หากมีคำถามหรือข้อเสนอแนะ สามารถติดต่อได้ผ่านช่องทางต่างๆ
-
----
-
-Made with dedication for Health Research
